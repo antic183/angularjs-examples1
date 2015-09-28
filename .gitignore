@@ -1,0 +1,7 @@
+nbproject/
+libraries/
+DOWNLOAD_Quellcode/
+vendor/
+*.bat
+*.txt
+composer.lock

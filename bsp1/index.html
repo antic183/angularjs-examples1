@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html ng-app="app">
+  <head>
+    <title>Single Page Web Apps: BSP-1</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="../libraries/angular/angular.min.js"></script>
+    <script src="lib/controllers/Bsp1Controller.js"></script>
+  </head>
+  <body>
+    <h1>BSP-1: einfacher Controller</h1>
+    <div ng-controller="BookController">
+      Neuer Titel:<input type="text" ng-model="newtitle" />
+      <button ng-click="add()">Add</button>Eingabe = {{newtitle}}<br/>
+      <h2>Titel:</h2>
+      {{titles}}
+      <p ng-repeat="title in titles">{{title| uppercase}}</p>
+    </div>
+  </body>
+</html>

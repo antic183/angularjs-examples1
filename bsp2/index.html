@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Single Page Web Apps: BSP-2</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../libraries/bootstrap/dist/css/bootstrap.css">
+    <script src="../libraries/angular/angular.min.js"></script>
+    <script src="../libraries/angular-route/angular-route.min.js"></script>
+    
+    <!--angular module-->
+    <script src="lib/project.js"></script>
+    <script src="lib/localStorageModule.js"></script>
+    <style>
+      a.pointer, a.ponter:hover{
+        cursor:pointer;
+        text-decoration: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>BSP-2: Linkmanager</h1>
+
+      <div ng-app="linkManager">
+        <h1>LinkManager</h1>
+        <div ng-view></div>
+
+        <script type="text/ng-template" id="list.html">
+        <input type="text" ng-model="query" ng-change="search()" class="input-large search-query" placeholder="Search">
+        <table class="table tabl-hover">
+          <thead>
+            <tr>
+              <th>Project
+                <a class="pointer" ng-click="sortBy('name')">
+                  <span class="glyphicon glyphicon-circle-arrow-up"></span>
+                </a>
+                <a class="pointer" ng-click="sortBy('-name')">
+                  <span class="glyphicon glyphicon-circle-arrow-down"></span>
+                </a>
+              </th>
+              <th>Description
+                <a class="pointer" ng-click="sortBy('description')">
+                  <span class="glyphicon glyphicon-circle-arrow-up"></span>
+                </a>
+                <a class="pointer" ng-click="sortBy('-description')">
+                  <span class="glyphicon glyphicon-circle-arrow-down"></span>
+                </a>
+              </th>
+              <th>Tags</th>
+              <th><a href="#/new"><span class="glyphicon glyphicon-plus-sign"></span></a></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr ng-repeat="link in pagedItems[currentPage]">
+              <td><a href="{{link.site}}" target="_blank">{{link.name}}</a></td>
+              <td>{{link.description}}</td>
+              <td>{{link.tags}}</td>
+              <td>
+                <a href="#/edit/{{link.Id}}"><span class="glyphicon glyphicon-pencil"></span></a>
+                <a href="#/copy/{{link.Id}}"><span class="glyphicon glyphicon-plane"></span></i></a>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <button ng-disabled="currentPage == 0" ng-click="setPage(currentPage = currentPage - 1)" class="btn btn-primary">
+          Previus
+        </button>
+        Page: {{currentPage + 1}}/{{numberOfPages()}}
+        <button ng-disabled="currentPage >= filteredItems.length / pageSize - 1" ng-click="setPage(currentPage = currentPage + 1)" class="btn btn-primary">
+          Next
+        </button>
+        Links: {{filteredItems.length}}
+        <a href="#/" class="btn" ng-click="storeLinks()">StoreLinks (LS)</a>
+        <a href="#/" class="btn" ng-click="loadLinks()">ReadLinks (LS)</a>
+        </script>
+
+        <script type="text/ng-template" id="detail.html">
+          <form name="myForm" class="form-horizontal">
+
+          <div class="form-group" ng-class="{error: myForm.name.$invalid}">
+          <label class="control-label">Name:</label>
+          <input type="text" name="name" ng-model="alink.name" required />
+          <span ng-show="myForm.name.$error.required" class="help-inline">Required</span>
+          </div>
+
+          <div class="form-group" ng-class="{error: myForm.site.$invalid}">
+          <label class="control-label">Website:</label>
+          <input type="url" name="site" ng-model="alink.site" required />
+          <span ng-show="myForm.site.$error.required" class="help-inline">Required</span>
+          <span ng-show="myForm.site.$error.url" class="help-inline">Not a URL</span>
+          </div>
+
+          <div class="form-group">
+          <label class="control-label">Description:</label>
+          <input type="text" ng-model="alink.description" required />
+          </div>
+
+          <div class="form-group">
+          <label class="control-label">Tags:</label>
+          <input type="text" ng-model="alink.tags" required />
+          </div>
+
+          <div class="form-group">
+          <label class="control-label"></label>
+          <a href="#/" class="btn btn-default" ng-click="close()">Cancel</a>
+          <button class="btn btn-primary" ng-click="save()" ng-disabled="isClean() || myForm.$invalid">Save</button>
+          <button class="btn btn-danger" ng-click="destroy()" ng-show="alink.Id">Delete</button>
+          </div>
+          </form>
+        </script>
+
+      </div>
+    </div>
+  </body>
+</html>
