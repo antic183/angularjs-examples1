@@ -10,6 +10,23 @@ use Slim\Slim;
 
 $app = new Slim();
 
+/*
+ * call service from browser console:
+ * 
+  var script = document.createElement('script');
+
+  script.type = 'text/javascript';
+  script.src = 'https://code.jquery.com/jquery-2.1.4.min.js';
+  document.body.appendChild(script);
+
+
+  (function () {
+  $.get('service.php/links', function (x) {
+  alert('Antwort = \n' + x);
+  })
+  })();
+*/
+
 $app->get('/', 'index');
 //Alle Links abfragen
 $app->get('/links', 'getLinks');
@@ -35,7 +52,7 @@ function index() {
 function getLinks($id = null) {
   if (!$id) {
     echo 'jjj';
-  }else {
+  } else {
     echo $id;
   }
 }
